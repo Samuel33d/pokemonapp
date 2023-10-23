@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+body::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+body::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-button:increment,
+body::-webkit-scrollbar-button {
+    display: none;
+}
+
+body::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #FF6B57;
+    border-radius: 3px;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+body::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: white;
+}
+
+.spin {
+    animation: spin 4s linear infinite;
+}
+
+.pokeBall {
+    display: inline-block;
+    margin: 0 0.5rem;
+    animation: bounceIn;
+    animation-duration: 1s;
+}
+
+.animHidden {
+    animation: hidden 1.5s forwards;
+}
+
+.animVisible {
+    animation: visible .5s;
+}
+
+.statPercent {
+    display: inline-block;
+    animation: slideInLeft;
+    animation-duration: 1s;
+    animation-delay: .3s;
+}
+
+.movement:hover {
+    transform: scale(1.1);
+    transition: all .3s;
+}
+
+
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes hidden {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes visible {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        display: none;
+    }
+}
