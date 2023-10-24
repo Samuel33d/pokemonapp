@@ -1,15 +1,15 @@
+import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import PokemonDetail from "./pages/PokemonDetails";
-import Pokedex from "./pages/Pokedex";
-import Home from "./pages/Home";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Config from "./pages/Config";
-import { useSelector } from "react-redux";
-
+import Home from "./pages/Home";
+import Pokedex from "./pages/Pokedex";
+import PokemonDetail from "./pages/PokemonDetails";
 
 function App() {
   const isDarkMode = useSelector((store) => store.darkMode);
+
   return (
     <main className={isDarkMode ? "dark" : ""}>
       <Routes>

@@ -1,31 +1,29 @@
-const paginationLogic = (currentPage, pokemons, POKEMONS_PER_PAGE) => {
+const paginationLogic = (currentPage, items, POKEMONS_PER_PAGE) => {
 
-    const VISIBLE_PAGES = 5;
+    const ITEMS_PER_PAGE = POKEMONS_PER_PAGE
 
+    const sliceEnd = currentPage * ITEMS_PER_PAGE
+    const sliceStart = sliceEnd - ITEMS_PER_PAGE
 
-    const totalPages = Math.ceil(pokemons.length / POKEMONS_PER_PAGE)
+    const itemsInCurrentPage = items.slice(sliceStart, sliceEnd)
 
-    const sliceEnd = POKEMONS_PER_PAGE * currentPage;
-    const sliceStart = sliceEnd - POKEMONS_PER_PAGE;
-    const pokemonsInPage = pokemons.slice(sliceStart, sliceEnd)
+    const lastPage = Math.ceil(items.length / ITEMS_PER_PAGE)
 
-    let pages = [];
+    const PAGES_PER_BLOCK = 5
+    const actualBlock = Math.ceil(currentPage / PAGES_PER_BLOCK)
 
+    const pagesInCurrentBlock = []
+    const maxPage = actualBlock * PAGES_PER_BLOCK
+    const minPage = (maxPage - PAGES_PER_BLOCK) + 1
 
-    const startPage = Math.max(1, currentPage - Math.floor(VISIBLE_PAGES / 2 + 1));
-    const endPage = Math.min(totalPages, startPage + VISIBLE_PAGES - 1);
-
-    for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
+    for (let i = minPage; i <= maxPage; i++) {
+        if (i <= lastPage) pagesInCurrentBlock.push(i)
     }
 
-    const showNextSet = endPage < totalPages;
-
-
     return {
-        pokemonsInPage,
-        pages,
-        showNextSet,
+        itemsInCurrentPage,
+        pagesInCurrentBlock,
+        lastPage
     }
 }
 

@@ -1,6 +1,6 @@
-import { POKEMON_TYPES } from "../constants/pokedex";
+import { POKEMON_TYPES } from "../../constants/pokedex";
 
-const PokemonCardStats = ({stat, pokemon}) => {
+const PokemonCardStats = ({ stat, pokemon }) => {
   return (
     <li
       className="z-50 flex flex-col text-sm text-[#9F9F9F]   uppercase p-1  "
@@ -8,7 +8,7 @@ const PokemonCardStats = ({stat, pokemon}) => {
     >
       <span>{stat?.stat.name}</span>
       <span
-        className={`font-bold  ${
+        className={`textShadow font-bold  ${
           POKEMON_TYPES[pokemon?.types[0].type.name]
         } text-xl`}
       >

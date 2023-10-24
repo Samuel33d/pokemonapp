@@ -4,6 +4,8 @@ import PokemonList from "../components/PokemonList";
 import Header from "../components/Header";
 import useFetchPokemonsByType from "../hooks/useFetchPokemonsByType";
 import useFetchPokemonTypes from "../hooks/usePokemonTypes";
+import FormPokemons from "../components/FormPokemons";
+import Overlay from "../components/Overlay";
 
 const Pokedex = () => {
   const trainerName = useSelector((store) => store.trainerName);
@@ -12,61 +14,27 @@ const Pokedex = () => {
   const types = useFetchPokemonTypes();
   const pokemons = useFetchPokemonsByType(currentType);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const pokemonName = e.target.pokemonName.value.toLowerCase().trim();
-    setPokemonName(pokemonName);
-  };
-
-  const handleChangeType = (e) => {
-    setCurrentType(e.target.value);
-  };
-
   const pokemonsByName = pokemons.filter((pokemon) =>
     pokemon.name.includes(pokemonName)
   );
 
   return (
-    <main className="items-center animVisible relative">
+    <main className="dark:bg-black/50 overflow-hidden items-center animVisible relative  min-h-screen">
       <Header />
 
       <section className="flex flex-col max-w-[1024px] mx-auto px-5 gap-10 py-10 ">
-        <p className="font-medium md:text-2xl z-50">
-          <span className="font-bold text-red-500">Hi {trainerName}! </span>
+        <p className="font-medium md:text-2xl z-50 dark:text-white/90 ">
+          <span className=" font-bold text-red-500 dark:text-red-600">
+            Hi {trainerName}!{" "}
+          </span>
           here you can find your favorite Pokemon!
         </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col sm:grid sm:grid-cols-[2fr,1fr] gap-5 transition-all "
-        >
-          <div className="grid grid-cols-[70%,30%] shadow-md border-2 dark:border-0 sm:grid-cols-[1fr,auto] transition-all z-50 rounded-md">
-            <input
-              className="p-2 px-4 rounded-md outline-none  dark:bg-white/50"
-              type="text"
-              placeholder="Search a pokemon"
-              name="pokemonName"
-            />
-            <button className="p-3 px-4 bg-red-500 hover:bg-red-600 shadow-md font-bold text-white   rounded-sm">
-              Search
-            </button>
-          </div>
-          <select
-            onChange={handleChangeType}
-            name="pokemonType"
-            className="shadow-md p-3 outline-none z-50 border-2 dark:bg-white/50 dark:border-0 rounded-md"
-          >
-            <option className="" value="">
-              All Types
-            </option>
-            {types.map((type) => (
-              <option className="" key={type.url} value={type.name}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-        </form>
+        <FormPokemons
+          types={types}
+          setPokemonName={setPokemonName}
+          setCurrentType={setCurrentType}
+        />
       </section>
 
       {pokemonsByName.length > 0 ? (
@@ -76,7 +44,7 @@ const Pokedex = () => {
           There`s not Pokemons found. Try with other Pokemon Name or type
         </p>
       )}
-      <div className="fixed bg-black/30 h-full w-full  top-0  rounded-sm hidden dark:block"></div>
+      <Overlay/>
     </main>
   );
 };

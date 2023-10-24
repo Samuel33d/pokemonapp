@@ -1,46 +1,28 @@
-import { useDispatch, useSelector } from "react-redux";
-import Header from "../components/Header";
-import { setPokemonsPerPage } from "../slices/pokemonsPerPage.slice";
-import { Link } from "react-router-dom";
 import { IconArrowBack, IconMoon, IconSun } from "@tabler/icons-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import FormConfig from "../components/FormConfig";
+import Header from "../components/Header";
+import Overlay from "../components/Overlay";
 import { toggleDarkMode } from "../slices/darkMode.slice";
 
 const Config = () => {
-  const pokemonsPerPage = useSelector((store) => store.pokemonsPerPage);
   const isDarkMode = useSelector((store) => store.darkMode);
-
   const dispatch = useDispatch();
-
-  const handleChangePokemonsPerPage = (e) => {
-    const POKEMONS_PER_PAGE = e.target.value;
-    dispatch(setPokemonsPerPage(POKEMONS_PER_PAGE));
-  };
 
   const handleChangeTheme = () => {
     dispatch(toggleDarkMode());
   };
 
-  return (
-    <>
-      <Header />
-      <main className="px-2">
-        <section className="my-10 animVisible grid place-items-center min-h-full max-w-[500px] transition-all mx-auto  shadow-2xl font-medium  rounded-md text-xl p-5 gap-5 dark:bg-black/40 dark:text-white border-2 dark:border-black ">
-          <h3 className="font-bold z-50">Options</h3>
 
-          <form
-            onChange={handleChangePokemonsPerPage}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center z-50"
-          >
-            <span className="justify-self-center z-50">Pokemon per page: </span>
-            <select className="shadow-md border-2 p-3 outline-none w-48 text-neutral-950 rounded-md dark:border-black ">
-              <option value={pokemonsPerPage}>Default value</option>
-              <option value="20">20</option>
-              <option value="16">16</option>
-              <option value="12">12</option>
-              <option value="8">8</option>
-              <option value="4">4</option>
-            </select>
-          </form>
+
+  return (
+    <main>
+      <Header />
+      <section className="px-2">
+        <section className="my-10 animVisible grid place-items-center min-h-full max-w-[500px] transition-all mx-auto  shadow-2xl font-medium  rounded-md text-xl p-5 gap-5 border-2 dark:bg-black/80 dark:text-white ">
+          <h3 className="font-bold z-50">Options</h3>
+          <FormConfig />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center z-50">
             <span className="justify-self-center">Theme mode:</span>
             <button
@@ -59,9 +41,9 @@ const Config = () => {
             <IconArrowBack size={40} />
           </Link>
         </section>
-      </main>
-      <div className="fixed bg-black/30 h-full w-full  top-0  rounded-sm hidden dark:block"></div>
-    </>
+      </section>
+      <Overlay />
+    </main>
   );
 };
 export default Config;
