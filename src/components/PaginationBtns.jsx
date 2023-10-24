@@ -11,7 +11,7 @@ const PaginationBtns = ({
 }) => {
   return (
     <section className="px-5 py-10  ">
-      <ul className="flex flex-wrap justify-center items-center gap-0 sm:gap-3  ">
+      <ul className=" flex items-center justify-center gap-0 sm:gap-3  ">
         {currentPage !== 1 && (
           <button
             className="h-8 w-8 z-50 dark:border-black sm:h-16 sm:w-16 transition-all rounded-md sm:text-xl shadow-lg border bg-red-500 hover:bg-red-600 dark:bg-red-700 hover:dark:bg-red-800 text-white  "
@@ -21,7 +21,7 @@ const PaginationBtns = ({
           </button>
         )}
         {pagesInCurrentBlock.map((page) => (
-          <li key={page} className="z-50 dark:border-black dark:text-white ">
+          <li key={page} className="z-50  dark:border-black dark:text-white ">
             <button
               onClick={() => setCurrentPage(page)}
               className={`h-8  w-8 sm:h-16 sm:w-16 transition-all rounded-md sm:text-xl   ${

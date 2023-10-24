@@ -10,8 +10,11 @@ import {
   POKEMON_TYPES__BORDER,
 } from "../constants/pokedex";
 import useFetchPokemonsDetails from "../hooks/useFetchPokemonsDetails";
+import { useSelector } from "react-redux";
 
 const PokemonDetail = () => {
+  const isDarkMode = useSelector((store) => store.darkMode);
+
   const { id } = useParams();
   const pokemon = useFetchPokemonsDetails(id);
 
@@ -44,16 +47,18 @@ const PokemonDetail = () => {
 
           <section className="relative flex flex-col gap-3 mt-3 md:mt-8  mx-auto">
             <span
-              className={`${
-                POKEMON_TYPES[pokemon?.types[0].type.name]
-              } textShadow  font-bold text-md  dark:border-white  border-b-2 w-fit mx-auto px-3 py-1 mb-6 sm: lg:text-[2rem] opacity-0 lg:opacity-100 transition-all  `}
+              className={`${POKEMON_TYPES[pokemon?.types[0].type.name]} ${
+                isDarkMode ? "textShadow" : ""
+              }  font-bold text-md  dark:border-white  border-b-2 w-fit mx-auto px-3 py-1 mb-6 sm: lg:text-[2rem] opacity-0 lg:opacity-100 transition-all  `}
             >
               #{pokemon?.id}
             </span>
             <h3
               className={`absolute left-1/2 -translate-x-1/2 -bottom-4 bg-white  px-6 ${
                 POKEMON_TYPES[pokemon?.types[0].type.name]
-              } textShadow font-bold text-2xl dark:bg-transparent  sm:text-[2rem] line-clamp-2`}
+              } ${
+                isDarkMode ? "textShadow" : ""
+              } font-bold text-2xl dark:bg-transparent  sm:text-[2rem] line-clamp-2`}
             >
               {pokemon?.name}
             </h3>
@@ -118,11 +123,13 @@ const PokemonDetail = () => {
       </section>
 
       <section
-        className={`${
+        className={`
+        ${pokemon?.moves.length === 0 && "hidden"}
+        ${
           POKEMON_TYPES__BORDER[pokemon?.types[0].type.name]
         } relative dark:shadow-slate-500 shadow-lg dark:bg-black/80 dark:border-0 bg-white  w-[300px] sm:w-[400px] md:w-[500px] lg:w-[950px] border-2 capitalize rounded-[4px]  mx-auto  sm:px-10 lg:px-24 sm:py-5  px-8 py-3 my-10 transition-all`}
       >
-        <h4 className="dark:text-white font-bold text-2xl sm:text-[2rem] mb-5 ">
+        <h4 className="relative z-50 dark:text-white font-bold text-2xl sm:text-[2rem] mb-5 ">
           Movements
         </h4>
         <img

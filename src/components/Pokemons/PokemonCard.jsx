@@ -7,8 +7,11 @@ import {
 } from "../../constants/pokedex";
 import { Link } from "react-router-dom";
 import PokemonCardStats from "./PokemonCardStats";
+import { useSelector } from "react-redux";
 
 const PokemonCard = ({ pokemonInfo }) => {
+  const isDarkMode = useSelector((store) => store.darkMode);
+
   const [pokemon, setPokemon] = useState(null);
   useEffect(() => {
     axios
@@ -45,9 +48,9 @@ const PokemonCard = ({ pokemonInfo }) => {
       </header>
       <div className=" flex flex-col pt-12 ">
         <h3
-          className={`${
-            POKEMON_TYPES[pokemon?.types[0].type.name]
-          } textShadow font-bold text-2xl z-50`}
+          className={`${POKEMON_TYPES[pokemon?.types[0].type.name]} ${
+            isDarkMode ? "textShadow" : ""
+          } font-bold text-2xl z-50`}
         >
           {pokemon?.name}
         </h3>
