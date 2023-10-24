@@ -5,10 +5,11 @@ import Pokedex from "./pages/Pokedex";
 import Home from "./pages/Home";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Config from "./pages/Config";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const isDarkMode = useSelector((store) => store.darkMode);
   return (
     <main className={isDarkMode ? "dark" : ""}>
       <Routes>
@@ -16,12 +17,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="/pokedex" element={<Pokedex />} />
           <Route path="/pokedex/:id" element={<PokemonDetail />} />
-          <Route
-            path="/config"
-            element={
-              <Config isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-            }
-          />
+          <Route path="/config" element={<Config />} />
         </Route>
       </Routes>
     </main>

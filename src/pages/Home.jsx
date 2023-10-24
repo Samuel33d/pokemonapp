@@ -18,7 +18,7 @@ const Home = () => {
   };
 
   return (
-    <main className="bg-[url('/images/bg-home.jpeg')] min-h-screen bg-cover  grid place-items-center bg-center p-2 md:px-40 py-20 md:pb-12 md:pt-32 transition-all overflow-hidden">
+    <main className="bg-[url('/images/bg-home.jpeg')] min-h-screen bg-cover  grid place-items-center bg-center p-2 md:px-40 py-20 md:pb-12 md:pt-32 transition-all overflow-hidden z-50">
       <section className="relative flex flex-col bg-white/60 rounded-[50px] border-8 border-[#443C3B] text-center gap-5  w-full justify-center items-center h-full ">
         <div className="min-w-[290px] py-[10rem] max-w-[500px] transition-all">
           <img

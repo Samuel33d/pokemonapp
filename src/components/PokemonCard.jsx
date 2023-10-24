@@ -6,6 +6,7 @@ import {
   POKEMON_TYPES__BORDER,
 } from "../constants/pokedex";
 import { Link } from "react-router-dom";
+import PokemonCardStats from "./PokemonCardStats";
 
 const PokemonCard = ({ pokemonInfo }) => {
   const [pokemon, setPokemon] = useState(null);
@@ -47,19 +48,11 @@ const PokemonCard = ({ pokemonInfo }) => {
       </div>
       <ul className="grid grid-cols-2 py-5">
         {pokemon?.stats.slice(0, 4).map((stat) => (
-          <li
-            className="z-50 flex flex-col text-sm text-[#9F9F9F]   uppercase p-1  "
-            key={stat?.stat.name}
-          >
-            <span>{stat?.stat.name}</span>
-            <span
-              className={`font-bold  ${
-                POKEMON_TYPES[pokemon?.types[0].type.name]
-              } text-xl`}
-            >
-              {stat?.base_stat}
-            </span>
-          </li>
+          <PokemonCardStats
+            key={stat.stat.name}
+            stat={stat}
+            pokemon={pokemon}
+          />
         ))}
       </ul>
     </Link>

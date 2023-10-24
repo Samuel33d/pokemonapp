@@ -1,20 +1,16 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import PokemonList from "../components/PokemonList";
 import Header from "../components/Header";
+import useFetchPokemonsByType from "../hooks/useFetchPokemonsByType";
+import useFetchPokemonTypes from "../hooks/usePokemonTypes";
 
 const Pokedex = () => {
   const trainerName = useSelector((store) => store.trainerName);
-  const [pokemons, setPokemons] = useState([]);
   const [pokemonName, setPokemonName] = useState("");
-  const [types, setTypes] = useState([]);
   const [currentType, setCurrentType] = useState("");
-
-  //! Seguir con el segundo filtro de las options(select)
-  const pokemonsByName = pokemons.filter((pokemon) =>
-    pokemon.name.includes(pokemonName)
-  );
+  const types = useFetchPokemonTypes();
+  const pokemons = useFetchPokemonsByType(currentType);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,38 +23,15 @@ const Pokedex = () => {
     setCurrentType(e.target.value);
   };
 
-  useEffect(() => {
-    if (currentType === "") {
-      axios
-        .get("https://pokeapi.co/api/v2/pokemon?limit=1292")
-        .then(({ data }) => setPokemons(data.results))
-        .catch((err) => console.log(err));
-    }
-  }, [currentType]);
-
-  useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/type/")
-      .then(({ data }) => setTypes(data.results))
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    if (currentType !== "") {
-      axios
-        .get(`https://pokeapi.co/api/v2/type/${currentType}`)
-        .then(({ data }) =>
-          setPokemons(data.pokemon.map((pokemon) => pokemon.pokemon))
-        )
-        .catch((err) => console.log(err));
-    }
-  }, [currentType]);
+  const pokemonsByName = pokemons.filter((pokemon) =>
+    pokemon.name.includes(pokemonName)
+  );
 
   return (
     <main className="items-center animVisible relative">
       <Header />
 
-      <section className="flex flex-col max-w-[1024px] mx-auto px-5 gap-10 py-10  ">
+      <section className="flex flex-col max-w-[1024px] mx-auto px-5 gap-10 py-10 ">
         <p className="font-medium md:text-2xl z-50">
           <span className="font-bold text-red-500">Hi {trainerName}! </span>
           here you can find your favorite Pokemon!
@@ -66,23 +39,23 @@ const Pokedex = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col sm:grid sm:grid-cols-[2fr,1fr] gap-5 transition-all"
+          className="flex flex-col sm:grid sm:grid-cols-[2fr,1fr] gap-5 transition-all "
         >
-          <div className="grid grid-cols-[70%,30%] shadow-md border-2 sm:grid-cols-[1fr,auto] transition-all z-50 dark:border-black">
+          <div className="grid grid-cols-[70%,30%] shadow-md border-2 dark:border-0 sm:grid-cols-[1fr,auto] transition-all z-50 rounded-md">
             <input
-              className="p-2 px-4 rounded-sm outline-none  dark:bg-white/50 "
+              className="p-2 px-4 rounded-md outline-none  dark:bg-white/50"
               type="text"
               placeholder="Search a pokemon"
               name="pokemonName"
             />
-            <button className="p-3 px-4 bg-red-500 hover:bg-red-600 shadow-md font-bold text-white rounded-sm  ">
+            <button className="p-3 px-4 bg-red-500 hover:bg-red-600 shadow-md font-bold text-white   rounded-sm">
               Search
             </button>
           </div>
           <select
             onChange={handleChangeType}
             name="pokemonType"
-            className="shadow-md p-3 outline-none z-50 border-2 dark:bg-white/50 dark:border-black"
+            className="shadow-md p-3 outline-none z-50 border-2 dark:bg-white/50 dark:border-0 rounded-md"
           >
             <option className="" value="">
               All Types

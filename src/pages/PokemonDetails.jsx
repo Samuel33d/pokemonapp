@@ -1,43 +1,29 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
+import PokemonAbilities from "../components/PokemonAbilities";
+import PokemonMoves from "../components/PokemonMoves";
+import PokemonStats from "../components/PokemonStats";
+import PokemonType from "../components/PokemonType";
 import {
   POKEMON_TYPES,
   POKEMON_TYPES__BG,
-  POKEMON_TYPES__BG_SPAN,
   POKEMON_TYPES__BORDER,
 } from "../constants/pokedex";
+import useFetchPokemonsDetails from "../hooks/useFetchPokemonsDetails";
 
 const PokemonDetail = () => {
   const { id } = useParams();
-  const [pokemon, setPokemon] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-      .then(({ data }) => setPokemon(data))
-      .catch((err) => console.log(err));
-
-    window.scrollTo(0, 0);
-  }, [id]);
-
-  const getPercentStat = (statValue) => {
-    const MAX_STAT_VALUE = 150;
-
-    const percentStat = ((statValue * 100) / MAX_STAT_VALUE).toFixed(1);
-    return `${percentStat}%`;
-  };
+  const pokemon = useFetchPokemonsDetails(id);
 
   return (
     <main>
       <Header />
 
-      <section className="animVisible max-w-[1024px] mt-20 lg:mt-24 mb-10 mx-auto grid place-items-center px-2  text-center">
+      <section className="animVisible max-w-[1024px] mt-20 lg:mt-24 mb-10 mx-auto grid place-items-center px-2  text-center ">
         <article
           className={`${
             POKEMON_TYPES__BORDER[pokemon?.types[0].type.name]
-          } w-[300px] sm:w-[400px] md:w-[500px] lg:w-[950px] border-2 capitalize rounded-[4px] transition-all shadow-lg bg-white  `}
+          } w-[300px] sm:w-[400px] md:w-[500px] lg:w-[950px] border-2 capitalize rounded-[4px] transition-all shadow-lg bg-white z-50 `}
         >
           <header
             className={`relative h-[80px] md:h-[120px] ${
@@ -88,14 +74,7 @@ const PokemonDetail = () => {
               <h4 className="md:text-[22px] text-black text-[16px]">Type</h4>
               <div className="flex gap-2">
                 {pokemon?.types.map((type) => (
-                  <span
-                    key={type.type.name}
-                    className={` ${
-                      POKEMON_TYPES__BG_SPAN[type.type.name]
-                    } px-4 shadow-md py-1 md:px-10 md:py-3 rounded-sm  border md:text-md hover:scale-110 transition-all`}
-                  >
-                    {type.type.name}
-                  </span>
+                  <PokemonType type={type} key={type.type.name} />
                 ))}
               </div>
             </div>
@@ -105,12 +84,10 @@ const PokemonDetail = () => {
               </h4>
               <div className="flex gap-2">
                 {pokemon?.abilities.map((ability) => (
-                  <span
-                    className={`py-1 px-4 border-2 rounded-sm shadow-md md:p-3  md:text-md  hover:scale-110 transition-all`}
+                  <PokemonAbilities
+                    ability={ability}
                     key={ability.ability.name}
-                  >
-                    {ability.ability.name}
-                  </span>
+                  />
                 ))}
               </div>
             </div>
@@ -122,18 +99,7 @@ const PokemonDetail = () => {
             </h4>
             <ul className="w-[80%] mx-auto py-10 flex flex-col gap-5 font-bold md:text-lg">
               {pokemon?.stats.map((stat) => (
-                <li className="flex flex-col" key={stat.stat.name}>
-                  <div className="flex justify-between">
-                    <h5>{stat.stat.name} :</h5>
-                    <span>{stat.base_stat}/150</span>
-                  </div>
-                  <div className=" relative overflow-hidden bg-slate-200 rounded-md h-6 ">
-                    <div
-                      style={{ width: getPercentStat(stat.base_stat) }}
-                      className={`absolute left-0 statPercent bg-gradient-to-r from-yellow-500 to-orange-500 h-full `}
-                    ></div>
-                  </div>
-                </li>
+                <PokemonStats stat={stat} key={stat.stat.name} />
               ))}
             </ul>
           </section>
@@ -143,21 +109,16 @@ const PokemonDetail = () => {
       <section
         className={`${
           POKEMON_TYPES__BORDER[pokemon?.types[0].type.name]
-        } w-[300px] sm:w-[400px] md:w-[500px] lg:w-[950px] border-2 capitalize rounded-[4px] transition-all shadow-lg mx-auto  sm:px-10 lg:px-24 sm:py-5  px-8 py-3 my-5 bg-white `}
+        } w-[300px] sm:w-[400px] md:w-[500px] lg:w-[950px] border-2 capitalize rounded-[4px]  shadow-lg mx-auto  sm:px-10 lg:px-24 sm:py-5  px-8 py-3 my-5`}
       >
         <h4 className=" font-bold text-2xl sm:text-[2rem] mb-5 ">Movements</h4>
-        <ul className="flex flex-wrap gap-3 transition-all">
+        <ul className="flex flex-wrap gap-3 transition-all ">
           {pokemon?.moves.slice(0, 30).map((move) => (
-            <li
-              className="bg-[#E5E5E5] movement p-2 px-3 rounded-3xl font-bold"
-              key={move?.move.name}
-            >
-              {move?.move.name}
-            </li>
+            <PokemonMoves move={move} key={move.move.name} />
           ))}
         </ul>
       </section>
-      <div className="fixed bg-black/30 h-full w-full  top-0  rounded-sm hidden dark:block -z-10"></div>
+      <div className="fixed bg-black/30 h-full w-full  top-0  rounded-sm hidden dark:block -z-50"></div>
     </main>
   );
 };

@@ -3,9 +3,12 @@ import Header from "../components/Header";
 import { setPokemonsPerPage } from "../slices/pokemonsPerPage.slice";
 import { Link } from "react-router-dom";
 import { IconArrowBack, IconMoon, IconSun } from "@tabler/icons-react";
+import { toggleDarkMode } from "../slices/darkMode.slice";
 
-const Config = ({ isDarkMode, setIsDarkMode }) => {
+const Config = () => {
   const pokemonsPerPage = useSelector((store) => store.pokemonsPerPage);
+  const isDarkMode = useSelector((store) => store.darkMode);
+
   const dispatch = useDispatch();
 
   const handleChangePokemonsPerPage = (e) => {
@@ -14,7 +17,7 @@ const Config = ({ isDarkMode, setIsDarkMode }) => {
   };
 
   const handleChangeTheme = () => {
-    setIsDarkMode(!isDarkMode);
+    dispatch(toggleDarkMode());
   };
 
   return (
